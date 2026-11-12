@@ -19,17 +19,20 @@ import java.util.List;
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "booking_id")
     private Long id;
     @ManyToOne
-    @JoinColumn(name = "customer_id",referencedColumnName = "id")
+    @JoinColumn(name = "customer_id",referencedColumnName = "customer_id")
     private Customer customer;
     @ManyToOne
-    @JoinColumn(name = "showtime_id",referencedColumnName = "id")
+    @JoinColumn(name = "showtime_id",referencedColumnName = "showtime_id")
     private Showtime showtime;
-    @Column(nullable = false)
+    @Column(name = "total_amount", nullable = false)
     private BigDecimal totalAmount;
+    @Column(name = "status", nullable = false,columnDefinition = "varchar(20)")
+    @Enumerated(EnumType.STRING)
     private BookingStatus status;
     @OneToMany(mappedBy = "booking",cascade = CascadeType.ALL,orphanRemoval = true)
     @OrderBy("seatCode ASC")
-    private List<Tickets> ticketsList;
+    private List<Ticket> ticketList;
 }

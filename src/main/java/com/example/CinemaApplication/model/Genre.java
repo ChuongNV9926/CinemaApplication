@@ -1,10 +1,7 @@
 package com.example.CinemaApplication.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -14,14 +11,16 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class Genre {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "genre_id")
     private long id;
-    @Column(nullable = false,unique = true)
+    @Column(name = "genre_name", nullable = false,unique = true,columnDefinition = "varchar(100)")
     private String name;
-    @Column(nullable = false)
+    @Column(nullable = false,name = "description",columnDefinition = "varchar(1000)")
     private String description;
-    @ManyToMany(mappedBy = "genreList")
-    private List<Movie> movieList;
+    @ManyToMany(mappedBy = "genres")
+    private List<Movie> movies;
 }

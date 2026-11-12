@@ -19,16 +19,19 @@ import java.util.List;
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "room_id")
     private Long id;
-    @Column(nullable = false,unique = false)
+    @Column(name="room_name",nullable = false,unique = false,columnDefinition = "varchar(100)")
     private String name;
-    @Column(nullable = false)
+    @Column(name = "room_type", nullable = false,columnDefinition = "varchar(20)")
+    @Enumerated(EnumType.STRING)
     private RoomType type;
-    @Column(nullable = false)
+    @Column(name = "total_rows", nullable = false)
     private int  totalRows;
-    @Column(nullable = false)
+    @Column(name = "seat_per_rows", nullable = false)
     private int seatPerRows;
-    @Column(nullable = false)
+    @Column(name = "status", nullable = false,columnDefinition = "varchar(20)")
+    @Enumerated(EnumType.STRING)
     private RoomStatus status;
 
 }

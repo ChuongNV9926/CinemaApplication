@@ -15,9 +15,10 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class Tickets {
+public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ticket_id")
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name = "booking_id")
@@ -25,8 +26,8 @@ public class Tickets {
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name="showtime_id")
     private Showtime showtime;
-    @Column(nullable = false)
+    @Column(name = "seat_code", nullable = false,columnDefinition = "varchar(4)")
     private String seatCode;
-    @Column(nullable = false)
+    @Column(name = "price", nullable = false)
     private BigDecimal price;
 }

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.Instant;
+import java.time.LocalDate;
 
 @Entity
 @Table(name="reviews")
@@ -26,14 +27,14 @@ public class Review {
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name = "movie_id")
     private Movie movie;
-   @Column(nullable = false)
+   @Column(name = "rating", nullable = false)
    private int rating;
-   @Column(nullable = false)
+   @Column(name = "comment", nullable = false,columnDefinition = "varchar(2000)")
     private  String comment;
-   @Column(nullable = false)
-    private Instant reviewDate;
+   @Column(name = "reviewDate", nullable = false)
+    private LocalDate reviewDate;
    @PrePersist
     protected void onCreate(){
-       reviewDate= Instant.now();
+       reviewDate= LocalDate.now();
    }
 }

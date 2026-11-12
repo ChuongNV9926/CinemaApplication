@@ -20,26 +20,29 @@ import java.util.List;
 public class Movie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "movie_id")
     private Long id;
-    @Column(nullable = false)
-    private String name;
-    @Column(nullable = false)
+    @Column(name = "title", nullable = false,columnDefinition = "varchar(200)")
+    private String title;
+    @Column(name = "director", nullable = false,columnDefinition = "varchar(100)")
     private String director;
-    @Column(nullable = false)
+    @Column(nullable = false,name = "duration")
     private int duration;
-    @Column(nullable = false)
-    private Instant release_date;
-    @Column(nullable = false)
+    @Column(nullable = false,name = "release_date")
+    private Instant releaseDate;
+    @Column(nullable = false,name = "age_rating",columnDefinition = "varchar(10)")
+    @Enumerated(EnumType.STRING)
     private AgeRating ageRating;
-    @Column(nullable = false)
+    @Column(name = "description", nullable = false,columnDefinition = "varchar(4000)")
     private String description;
-    @Column(nullable = false)
-    private String poster_url;
+    @Column(name = "poster_url", nullable = false,columnDefinition = "varchar(1000)")
+    private String posterUrl;
     @ManyToMany
     @JoinTable(name = "movie_genres",
                joinColumns = @JoinColumn(name =  "movie_id"),
-               inverseJoinColumns = @JoinColumn(name="genre_id",referencedColumnName = "id"))
-     private List<Genre> genreList;
-    @Column(nullable = false)
+               inverseJoinColumns = @JoinColumn(name="genre_id",referencedColumnName = "genre_id"))
+     private List<Genre> genres;
+    @Column(name = "status", nullable = false,columnDefinition = "varchar(20)")
+    @Enumerated(EnumType.STRING)
     private MovieStatus status;
 }

@@ -1,4 +1,4 @@
-name: Cinema Fullstack CI Pipeline
+name: Cinema Backend CI Pipeline
 
 on:
   push:
@@ -27,41 +27,16 @@ jobs:
 
       - name: Compile Backend with Maven
         run: |
-          cd CinemaApplication
           chmod +x mvnw
           ./mvnw clean compile -DskipTests
 
   # ==========================================
-  # 2. VERIFY FRONTEND (REACT 19 / TYPESCRIPT)
-  # ==========================================
-  frontend-check:
-    name: Verify Frontend TypeScript
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js 22
-        uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: 'npm'
-          cache-dependency-path: frontend/package-lock.json
-
-      - name: Install Dependencies & Typecheck
-        run: |
-          cd frontend
-          npm ci
-          npm run typecheck
-
-  # ==========================================
-  # 3. VERIFY DOCKER BUILDS
+  # 2. VERIFY DOCKER BUILD
   # ==========================================
   docker-check:
-    name: Test Docker Builds
+    name: Test Docker Build
     runs-on: ubuntu-latest
-    needs: [ backend-check, frontend-check ]
+    needs: [ backend-check ]
 
     steps:
       - name: Checkout Code
@@ -73,13 +48,6 @@ jobs:
       - name: Build Backend Docker Image
         uses: docker/build-push-action@v5
         with:
-          context: ./CinemaApplication
-          file: ./CinemaApplication/Dockerfile
-          push: false
-
-      - name: Build Frontend Docker Image
-        uses: docker/build-push-action@v5
-        with:
-          context: ./frontend
-          file: ./frontend/Dockerfile
+          context: .
+          file: ./Dockerfile
           push: false

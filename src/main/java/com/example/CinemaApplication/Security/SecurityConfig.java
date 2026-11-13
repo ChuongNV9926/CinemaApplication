@@ -46,7 +46,8 @@ public class SecurityConfig {
                               "/api/auth/refresh").permitAll().
                               requestMatchers(HttpMethod.GET, "/api/genres",
                                       "/api/movies", "/api/movies/*", "/api/movies/*/showtimes",
-                                      "/api/movies/*/reviews").permitAll().
+                                      "/api/movies/*/reviews", "/api/movies/*/rating",
+                                      "/api/showtimes/*", "/api/showtimes/*/booked-seats").permitAll().
                               requestMatchers("/api/auth/me").authenticated().
                               requestMatchers("/api/admin/**").hasRole("ADMIN").
                               requestMatchers("/api/customer/**").hasRole("CUSTOMER").

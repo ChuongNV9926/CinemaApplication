@@ -27,6 +27,8 @@ public class Booking {
     @ManyToOne
     @JoinColumn(name = "showtime_id",referencedColumnName = "showtime_id")
     private Showtime showtime;
+    @Column(name = "booking_date", nullable = false)
+    private java.time.LocalDateTime bookingDate;
     @Column(name = "total_amount", nullable = false)
     private BigDecimal totalAmount;
     @Column(name = "status", nullable = false,columnDefinition = "varchar(20)")

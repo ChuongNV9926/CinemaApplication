@@ -33,12 +33,16 @@ public interface ShowtimeRepository extends JpaRepository<Showtime,Long> {
     List<Showtime> findOverlappingIgnoreCancelled(@Param("roomId") Long roomId,@Param("start") LocalDateTime start,
                                    @Param("end") LocalDateTime end,@Param("excludedShowtimeId") Long showtimeExcludedId,
                                                   @Param("status") ShowTimeStatus status);
-@Query(value = """
-        Select r.name , Count(s) as  showTimeCount
-        From rooms r left join showtime s on r.room_id = s.room_id
-        And s.status = 'OPEN' AND CAST( s.startTime as DATE) = CURRENT_DATE
-        Group By r.name""",nativeQuery = true)
-
+    @Query(value = """
+            SELECT CAST(r.room_id AS varchar) AS roomId,
+                   CAST(COUNT(s.showtime_id) AS integer) AS showTimeCount
+            FROM rooms r
+            LEFT JOIN showtimes s ON s.room_id = r.room_id
+                AND s.status = 'OPEN'
+                AND CAST(s.start_date AS date) = CURRENT_DATE
+            GROUP BY r.room_id
+            ORDER BY r.room_id
+            """, nativeQuery = true)
     List<RoomShowTimecount> countTodayShowtimeByRoom();
 @Lock(LockModeType.PESSIMISTIC_WRITE)
    @Query("""
